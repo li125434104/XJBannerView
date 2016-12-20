@@ -13,6 +13,8 @@
 		A122BA0F1E091D6B000F422B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A122BA0D1E091D6B000F422B /* Main.storyboard */; };
 		A122BA111E091D6B000F422B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A122BA101E091D6B000F422B /* Assets.xcassets */; };
 		A122BA141E091D6B000F422B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A122BA121E091D6B000F422B /* LaunchScreen.storyboard */; };
+		A122BA201E091D75000F422B /* XJBannerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A122BA1D1E091D75000F422B /* XJBannerCell.m */; };
+		A122BA211E091D75000F422B /* XJBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A122BA1F1E091D75000F422B /* XJBannerView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,10 @@
 		A122BA101E091D6B000F422B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A122BA131E091D6B000F422B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A122BA151E091D6B000F422B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A122BA1C1E091D75000F422B /* XJBannerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XJBannerCell.h; sourceTree = "<group>"; };
+		A122BA1D1E091D75000F422B /* XJBannerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XJBannerCell.m; sourceTree = "<group>"; };
+		A122BA1E1E091D75000F422B /* XJBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XJBannerView.h; sourceTree = "<group>"; };
+		A122BA1F1E091D75000F422B /* XJBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XJBannerView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +64,7 @@
 		A122BA031E091D6B000F422B /* XJBannerView */ = {
 			isa = PBXGroup;
 			children = (
+				A122BA1B1E091D75000F422B /* XJBannerView */,
 				A122BA071E091D6B000F422B /* AppDelegate.h */,
 				A122BA081E091D6B000F422B /* AppDelegate.m */,
 				A122BA0A1E091D6B000F422B /* ViewController.h */,
@@ -77,6 +84,17 @@
 				A122BA051E091D6B000F422B /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A122BA1B1E091D75000F422B /* XJBannerView */ = {
+			isa = PBXGroup;
+			children = (
+				A122BA1C1E091D75000F422B /* XJBannerCell.h */,
+				A122BA1D1E091D75000F422B /* XJBannerCell.m */,
+				A122BA1E1E091D75000F422B /* XJBannerView.h */,
+				A122BA1F1E091D75000F422B /* XJBannerView.m */,
+			);
+			path = XJBannerView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,6 +169,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A122BA0C1E091D6B000F422B /* ViewController.m in Sources */,
+				A122BA211E091D75000F422B /* XJBannerView.m in Sources */,
+				A122BA201E091D75000F422B /* XJBannerCell.m in Sources */,
 				A122BA091E091D6B000F422B /* AppDelegate.m in Sources */,
 				A122BA061E091D6B000F422B /* main.m in Sources */,
 			);
