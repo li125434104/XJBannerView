@@ -10,7 +10,7 @@
 #import "XJBannerView.h"
 #define kScreenWidth    [[UIScreen mainScreen] bounds].size.width
 
-@interface ViewController ()<XJBannerViewDataSource>
+@interface ViewController ()<XJBannerViewDataSource, XJBannerViewDelegate>
 
 
 @property (nonatomic, strong) NSArray *dataArray;
@@ -23,6 +23,7 @@
     [super viewDidLoad];
     XJBannerView *bannerView = [[XJBannerView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, 200)];
     bannerView.dataSource = self;
+    bannerView.delegate = self;
     
     [self.view addSubview:bannerView];
 }
@@ -39,6 +40,12 @@
     [imageView setImage:[UIImage imageNamed:imageStr]];
     return imageView;
 }
+
+#pragma mark - XJBannerViewDelegate
+- (void)banner:(XJBannerView *)banner didSelectItemAtIndex:(NSInteger)index {
+    NSLog(@"点击的图片是第%ld张",(long)index);
+}
+
 
 #pragma mark - Getter
 - (NSArray *)dataArray {

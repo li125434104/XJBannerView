@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol XJBannerViewDataSource;
+@protocol XJBannerViewDataSource, XJBannerViewDelegate;
 
 
 @interface XJBannerView : UIView
 
 @property (nonatomic, weak) id<XJBannerViewDataSource> dataSource;
-
+@property (nonatomic, weak) id<XJBannerViewDelegate> delegate;
 
 @end
 
@@ -24,5 +24,12 @@
 
 - (NSInteger)numberOfItemsInBannber:(XJBannerView *)banner;
 - (UIView *)banner:(XJBannerView *)banner viewForItemAtIndex:(NSInteger)index;
+
+@end
+
+@protocol XJBannerViewDelegate <NSObject>
+@optional
+
+- (void)banner:(XJBannerView *)banner didSelectItemAtIndex:(NSInteger)index;
 
 @end

@@ -73,6 +73,13 @@ static NSString *banner_cell = @"banner_cell";
     return cell;
 }
 
+#pragma mark - CollectionView Delegate
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.delegate respondsToSelector:@selector(banner:viewForItemAtIndex:)]) {
+        [self.delegate banner:self didSelectItemAtIndex:(indexPath.item % self.itemCount)];
+    }
+}
+
 #pragma mark - Setter & Getter
 #pragma mark 属性
 - (void)setDataSource:(id<XJBannerViewDataSource>)dataSource {
