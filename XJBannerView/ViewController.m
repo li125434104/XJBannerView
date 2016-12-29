@@ -12,7 +12,6 @@
 
 @interface ViewController ()<XJBannerViewDataSource, XJBannerViewDelegate>
 
-
 @property (nonatomic, strong) NSArray *dataArray;
 
 @end
@@ -24,6 +23,7 @@
     XJBannerView *bannerView = [[XJBannerView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, 200)];
     bannerView.dataSource = self;
     bannerView.delegate = self;
+    bannerView.shouldLoop = YES;
     
     [self.view addSubview:bannerView];
 }

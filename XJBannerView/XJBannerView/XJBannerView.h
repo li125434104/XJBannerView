@@ -13,6 +13,18 @@
 
 @interface XJBannerView : UIView
 
+
+/**
+ 是否循环滚动，默认NO
+ */
+@property (nonatomic, assign) BOOL shouldLoop;
+
+/**
+ pageControl ,自行配置其大小位置
+ */
+@property (nonatomic, strong) UIPageControl *pageControl;
+@property (nonatomic, assign) CGRect pageControlFrame;
+
 @property (nonatomic, weak) id<XJBannerViewDataSource> dataSource;
 @property (nonatomic, weak) id<XJBannerViewDelegate> delegate;
 

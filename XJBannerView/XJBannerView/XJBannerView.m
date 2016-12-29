@@ -11,6 +11,9 @@
 #import "XJBannerView.h"
 #import "XJBannerCell.h"
 
+#define TOTAL_ITEMS (self.itemCount * 20000)
+#define PAGE_CONTROL_HEIGHT 32.0
+
 @interface XJBannerView () <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
@@ -21,6 +24,9 @@
 @end
 
 @implementation XJBannerView
+
+@synthesize shouldLoop = _shouldLoop;
+@synthesize pageControl = _pageControl;
 
 static NSString *banner_cell = @"banner_cell";
 
@@ -44,6 +50,7 @@ static NSString *banner_cell = @"banner_cell";
 
 - (void)commonInit {
     [self addSubview:self.collectionView];
+    [self addSubview:self.pageControl];
 }
 
 - (void)layoutSubviews {
@@ -56,12 +63,24 @@ static NSString *banner_cell = @"banner_cell";
     self.flowLayout.itemSize = self.bounds.size;
     self.collectionView.frame = self.bounds;
     [self.collectionView reloadData];
+    
+    if (CGRectEqualToRect(self.pageControlFrame, CGRectZero)) {
+        CGFloat w = self.frame.size.width;
+        CGFloat h = PAGE_CONTROL_HEIGHT;
+        CGFloat x = 0;
+        CGFloat y = self.frame.size.height - h;
+        self.pageControl.frame = CGRectMake(x, y, w, h);
+    }
 }
 
 
 #pragma mark - CollectionView DataSouce
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.itemCount;
+    if (self.shouldLoop) {
+        return TOTAL_ITEMS;
+    } else {
+        return self.itemCount;
+    }
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -80,6 +99,13 @@ static NSString *banner_cell = @"banner_cell";
     }
 }
 
+
+- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+    //pageControl跟随着移动
+    NSIndexPath *currentIndexPath = [collectionView indexPathsForVisibleItems].firstObject;
+    self.pageControl.currentPage = currentIndexPath.item % self.itemCount;
+}
+
 #pragma mark - Setter & Getter
 #pragma mark 属性
 - (void)setDataSource:(id<XJBannerViewDataSource>)dataSource {
@@ -94,6 +120,44 @@ static NSString *banner_cell = @"banner_cell";
         return [self.dataSource numberOfItemsInBannber:self];
     }
     return 0;
+}
+
+- (void)setShouldLoop:(BOOL)shouldLoop {
+    _shouldLoop = shouldLoop;
+}
+
+- (BOOL)shouldLoop {
+    if (self.itemCount == 1) {
+        return NO;
+    }
+    return _shouldLoop;
+}
+
+- (void)setPageControl:(UIPageControl *)pageControl {
+    [_pageControl removeFromSuperview];
+    // 赋值
+    _pageControl = pageControl;
+    
+    // 添加新pageControl
+    _pageControl.userInteractionEnabled = NO;
+    _pageControl.autoresizingMask = UIViewAutoresizingNone;
+    _pageControl.backgroundColor = [UIColor redColor];
+    [self addSubview:_pageControl];
+    
+    [self reloadData];
+}
+
+- (UIPageControl *)pageControl {
+    if (!_pageControl) {
+        _pageControl = [[UIPageControl alloc] init];
+        _pageControl.userInteractionEnabled = NO;
+    }
+    return _pageControl;
+}
+
+- (void)setPageControlFrame:(CGRect)pageControlFrame {
+    _pageControlFrame = pageControlFrame;
+    self.pageControl.frame = pageControlFrame;
 }
 
 #pragma mark 控件
@@ -132,6 +196,8 @@ static NSString *banner_cell = @"banner_cell";
     if (!self.dataSource || self.itemCount == 0) {
         return;
     }
+    
+    self.pageControl.numberOfPages = self.itemCount;
     
     [self.collectionView reloadData];
 }
