@@ -24,7 +24,7 @@
     bannerView.dataSource = self;
     bannerView.delegate = self;
     bannerView.shouldLoop = YES;
-    
+    bannerView.autoScroll = YES;
     [self.view addSubview:bannerView];
 }
 

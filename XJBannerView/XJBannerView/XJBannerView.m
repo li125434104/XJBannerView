@@ -20,6 +20,7 @@
 @property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
 
 @property (nonatomic, assign) NSInteger itemCount;//显示item的个数
+@property (nonatomic, strong) NSTimer *timer;
 
 @end
 
@@ -27,6 +28,8 @@
 
 @synthesize shouldLoop = _shouldLoop;
 @synthesize pageControl = _pageControl;
+@synthesize autoScroll = _autoScroll;
+@synthesize scrollInterval = _scrollInterval;
 
 static NSString *banner_cell = @"banner_cell";
 
@@ -122,6 +125,10 @@ static NSString *banner_cell = @"banner_cell";
     return 0;
 }
 
+
+/**
+ 循环滚动
+ */
 - (void)setShouldLoop:(BOOL)shouldLoop {
     _shouldLoop = shouldLoop;
 }
@@ -131,6 +138,35 @@ static NSString *banner_cell = @"banner_cell";
         return NO;
     }
     return _shouldLoop;
+}
+
+- (void)setAutoScroll:(BOOL)autoScroll {
+    _autoScroll = autoScroll;
+    
+    if (autoScroll) {
+        [self startTimer];
+    } else {
+        [self stopTimer];
+    }
+}
+
+- (BOOL)autoScroll {
+    if (self.itemCount < 2) {
+        return  NO;
+    }
+    return _autoScroll;
+}
+
+- (void)setScrollInterval:(CGFloat)scrollInterval {
+    _scrollInterval = scrollInterval;
+    [self startTimer];
+}
+
+- (CGFloat)scrollInterval {
+    if (!_scrollInterval) {
+        _scrollInterval = 3.0;
+    }
+    return _scrollInterval;
 }
 
 - (void)setPageControl:(UIPageControl *)pageControl {
@@ -201,5 +237,45 @@ static NSString *banner_cell = @"banner_cell";
     
     [self.collectionView reloadData];
 }
+
+#pragma mark - NSTimer
+- (void)startTimer {
+    if (!self.autoScroll) return;
+    
+    [self stopTimer];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:self.scrollInterval target:self selector:@selector(autoScrollToNextItem) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+}
+
+- (void)stopTimer {
+    [self.timer invalidate];
+    self.timer = nil;
+}
+
+- (void)autoScrollToNextItem {
+    if (self.itemCount == 0 || self.itemCount == 1 || !self.autoScroll) return;
+    
+    NSIndexPath *currentIndexPath = [self.collectionView indexPathsForVisibleItems].firstObject;
+    NSInteger currentItem = currentIndexPath.item;
+    NSInteger nextItem = currentItem + 1;
+    
+    if (nextItem >= TOTAL_ITEMS) return;
+    
+    if (self.shouldLoop) {
+        //无限往下翻
+        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:nextItem inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
+    } else {
+        if ((currentItem % self.itemCount) == self.itemCount - 1) {
+            //最后一张，回到第0张
+            [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
+        } else {
+            [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:nextItem inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
+        }
+    }
+}
+
+
+
+
 
 @end

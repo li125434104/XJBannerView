@@ -20,6 +20,16 @@
 @property (nonatomic, assign) BOOL shouldLoop;
 
 /**
+ 是否自动滑动，默认NO
+ */
+@property (nonatomic, assign) BOOL autoScroll;
+
+/**
+ 自动滑动间隔时间（s），默认是3.0
+ */
+@property (nonatomic, assign) CGFloat scrollInterval;
+
+/**
  pageControl ,自行配置其大小位置
  */
 @property (nonatomic, strong) UIPageControl *pageControl;
